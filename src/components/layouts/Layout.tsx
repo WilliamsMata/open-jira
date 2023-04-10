@@ -2,7 +2,7 @@ import { PropsWithChildren } from "react";
 import Head from "next/head";
 import { Box } from "@mui/material";
 
-import { Navbar } from "../ui";
+import { Navbar, Sidebar } from "../ui";
 
 interface Props {
   title?: string;
@@ -19,7 +19,7 @@ export const Layout = ({
       </Head>
 
       <Navbar />
-      {/* Sidebar */}
+      <Sidebar />
 
       <Box sx={{ padding: "0.5rem 1rem" }}>{children}</Box>
     </Box>

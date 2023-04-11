@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <EntriesProvider>
       <UIProvider>
         <ThemeProvider theme={darkTheme}>
-          <CssBaseline />
+          <CssBaseline enableColorScheme />
           <Component {...pageProps} />
         </ThemeProvider>
       </UIProvider>

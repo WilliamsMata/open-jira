@@ -1,7 +1,8 @@
 import { createContext } from "react";
+import { Entry } from "@/interfaces";
 
 interface ContextProps {
-  entries: []; //todo: Falta el tipo de dato del array
+  entries: Entry[];
 }
 
 export const EntriesContext = createContext({} as ContextProps);

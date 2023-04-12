@@ -21,7 +21,10 @@ export const EntryList: FC<Props> = ({ status }) => {
     <div>
       <Paper
         sx={{
-          height: "calc(100vh - 160px)",
+          height:
+            status === "pending"
+              ? "calc(100vh - 210px)"
+              : "calc(100vh - 165px)",
           paddingInline: 1,
           overflow: "auto",
           scrollbarWidth: "thin",

@@ -48,6 +48,10 @@ export const EntriesProvider = ({ children }: PropsWithChildren) => {
     dispatch({ type: "[Entries] - Add-Entry", payload: newEntry });
   };
 
+  const updateEntry = (entry: Entry) => {
+    dispatch({ type: "[Entries] - Entry-Updated", payload: entry });
+  };
+
   return (
     <EntriesContext.Provider
       value={{
@@ -55,6 +59,7 @@ export const EntriesProvider = ({ children }: PropsWithChildren) => {
 
         //methods
         addNewEntry,
+        updateEntry,
       }}
     >
       {children}

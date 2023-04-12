@@ -4,11 +4,12 @@ import AddIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import BookmarkAddOutlinedIcon from "@mui/icons-material/BookmarkAddOutlined";
 
 import { EntriesContext } from "@/context/entries";
+import { UIContext } from "@/context/ui";
 
 export const NewEntry = () => {
   const { addNewEntry } = useContext(EntriesContext);
+  const { isAddingEntry, setIsAddingEntry } = useContext(UIContext);
 
-  const [isAdding, setIsAdding] = useState<boolean>(false);
   const [inputValue, setInputValue] = useState<string>("");
   const [touched, setTouched] = useState<boolean>(false);
 
@@ -20,14 +21,14 @@ export const NewEntry = () => {
     if (inputValue.length === 0) return;
 
     addNewEntry(inputValue);
-    setIsAdding(false);
+    setIsAddingEntry(false);
     setInputValue("");
     setTouched(false);
   };
 
   return (
     <Box sx={{ mb: 1, paddingX: 1 }}>
-      {isAdding ? (
+      {isAddingEntry ? (
         <>
           <TextField
             sx={{ mb: 1 }}
@@ -47,7 +48,7 @@ export const NewEntry = () => {
             <Button
               variant="text"
               onClick={() => {
-                setIsAdding(false);
+                setIsAddingEntry(false);
                 setTouched(false);
               }}
             >
@@ -69,7 +70,7 @@ export const NewEntry = () => {
           startIcon={<AddIcon />}
           fullWidth
           variant="outlined"
-          onClick={() => setIsAdding(true)}
+          onClick={() => setIsAddingEntry(true)}
         >
           Add task
         </Button>

@@ -3,6 +3,7 @@ import { List, Paper } from "@mui/material";
 
 import { EntryStatus } from "@/interfaces";
 import { EntriesContext } from "@/context/entries";
+import { UIContext } from "@/context/ui";
 import { EntryCard } from "./";
 
 interface Props {
@@ -11,6 +12,7 @@ interface Props {
 
 export const EntryList: FC<Props> = ({ status }) => {
   const { entries } = useContext(EntriesContext);
+  const { isAddingEntry } = useContext(UIContext);
 
   const entriesByStatus = useMemo(
     () => entries.filter((entry) => entry.status === status),
@@ -23,7 +25,9 @@ export const EntryList: FC<Props> = ({ status }) => {
         sx={{
           height:
             status === "pending"
-              ? "calc(100vh - 210px)"
+              ? isAddingEntry
+                ? "calc(100vh - 258px)"
+                : "calc(100vh - 210px)"
               : "calc(100vh - 165px)",
           paddingInline: 1,
           overflow: "auto",

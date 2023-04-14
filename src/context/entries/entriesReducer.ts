@@ -9,6 +9,10 @@ type EntriesActionType =
   | {
       type: "[Entries] - Entry-Updated";
       payload: Entry;
+    }
+  | {
+      type: "[Entries] - Refresh-Data";
+      payload: Entry[];
     };
 
 export const entriesReducer = (
@@ -32,6 +36,12 @@ export const entriesReducer = (
           }
           return entry;
         }),
+      };
+
+    case "[Entries] - Refresh-Data":
+      return {
+        ...state,
+        entries: [...action.payload],
       };
 
     default:

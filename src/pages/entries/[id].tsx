@@ -62,6 +62,10 @@ const EntryPage: NextPage<Props> = ({ entry }) => {
     updateEntry(updatedEntry, true);
   };
 
+  const onDelete = () => {
+    //TODO: Eliminar Entry
+  };
+
   return (
     <Layout title={inputValue.substring(0, 20) + "..."}>
       <Grid container justifyContent="center" sx={{ mt: 2 }}>
@@ -115,6 +119,7 @@ const EntryPage: NextPage<Props> = ({ entry }) => {
           </Card>
 
           <IconButton
+            onClick={onDelete}
             sx={{
               position: "absolute",
               top: 16,

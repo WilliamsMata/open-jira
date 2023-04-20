@@ -55,6 +55,10 @@ export const EntriesProvider = ({ children }: PropsWithChildren) => {
     dispatch({ type: "[Entries] - Refresh-Data", payload: data });
   };
 
+  const deleteEntry = async (id: string) => {
+    // TODO: Conectar con api
+  };
+
   useEffect(() => {
     refreshEntries();
   }, []);

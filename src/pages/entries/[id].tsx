@@ -1,4 +1,4 @@
-import { ChangeEvent, useMemo, useState } from "react";
+import { ChangeEvent, useContext, useMemo, useState } from "react";
 import { NextPage, GetServerSideProps } from "next";
 import {
   capitalize,
@@ -22,6 +22,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { dbEntries } from "@/database";
 import { Layout } from "@/components/layouts";
 import { Entry, EntryStatus } from "@/interfaces";
+import { EntriesContext } from "@/context/entries";
 
 const validStatus: EntryStatus[] = ["pending", "in-progress", "finished"];
 
@@ -30,6 +31,8 @@ interface Props {
 }
 
 const EntryPage: NextPage<Props> = ({ entry }) => {
+  const { updateEntry } = useContext(EntriesContext);
+
   const [inputValue, setInputValue] = useState<string>(entry.description);
   const [status, setStatus] = useState<EntryStatus>(entry.status);
   const [touched, setTouched] = useState<boolean>(false);
@@ -48,7 +51,15 @@ const EntryPage: NextPage<Props> = ({ entry }) => {
   };
 
   const onSave = () => {
-    console.log({ inputValue, status });
+    if (inputValue.trim().length === 0) return;
+
+    const updatedEntry: Entry = {
+      ...entry,
+      status,
+      description: inputValue,
+    };
+
+    updateEntry(updatedEntry, true);
   };
 
   return (

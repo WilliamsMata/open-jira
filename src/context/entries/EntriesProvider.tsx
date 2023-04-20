@@ -56,7 +56,17 @@ export const EntriesProvider = ({ children }: PropsWithChildren) => {
   };
 
   const deleteEntry = async (id: string) => {
-    // TODO: Conectar con api
+    await entriesApi.delete(`/entries/${id}`);
+    dispatch({ type: "[Entries] - Entry-Delete", payload: { id } });
+
+    enqueueSnackbar("Deleted entry", {
+      variant: "error",
+      autoHideDuration: 1000,
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "right",
+      },
+    });
   };
 
   useEffect(() => {
@@ -71,6 +81,7 @@ export const EntriesProvider = ({ children }: PropsWithChildren) => {
         //methods
         addNewEntry,
         updateEntry,
+        deleteEntry,
       }}
     >
       {children}

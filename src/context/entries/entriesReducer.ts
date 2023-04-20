@@ -13,6 +13,12 @@ type EntriesActionType =
   | {
       type: "[Entries] - Refresh-Data";
       payload: Entry[];
+    }
+  | {
+      type: "[Entries] - Entry-Delete";
+      payload: {
+        id: string;
+      };
     };
 
 export const entriesReducer = (
@@ -42,6 +48,14 @@ export const entriesReducer = (
       return {
         ...state,
         entries: [...action.payload],
+      };
+
+    case "[Entries] - Entry-Delete":
+      return {
+        ...state,
+        entries: state.entries.filter(
+          (entry) => entry._id !== action.payload.id
+        ),
       };
 
     default:

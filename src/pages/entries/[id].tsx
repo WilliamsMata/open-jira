@@ -23,6 +23,7 @@ import { dbEntries } from "@/database";
 import { Layout } from "@/components/layouts";
 import { Entry, EntryStatus } from "@/interfaces";
 import { EntriesContext } from "@/context/entries";
+import { useRouter } from "next/router";
 
 const validStatus: EntryStatus[] = ["pending", "in-progress", "finished"];
 
@@ -31,11 +32,13 @@ interface Props {
 }
 
 const EntryPage: NextPage<Props> = ({ entry }) => {
-  const { updateEntry } = useContext(EntriesContext);
+  const { updateEntry, deleteEntry } = useContext(EntriesContext);
 
   const [inputValue, setInputValue] = useState<string>(entry.description);
   const [status, setStatus] = useState<EntryStatus>(entry.status);
   const [touched, setTouched] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const isNotValidForm = useMemo(
     () => inputValue.length <= 0 && touched,
@@ -60,10 +63,14 @@ const EntryPage: NextPage<Props> = ({ entry }) => {
     };
 
     updateEntry(updatedEntry, true);
+
+    router.push("/");
   };
 
   const onDelete = () => {
-    //TODO: Eliminar Entry
+    deleteEntry(entry._id);
+
+    router.push("/");
   };
 
   return (

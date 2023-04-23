@@ -1,4 +1,5 @@
 import { DragEvent, FC, useContext } from "react";
+import { useRouter } from "next/router";
 import {
   Card,
   CardActionArea,
@@ -6,9 +7,10 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
+
 import { Entry } from "@/interfaces";
 import { UIContext } from "@/context/ui";
-import { useRouter } from "next/router";
+import { dateFunctions } from "@/utils";
 
 interface Props {
   entry: Entry;
@@ -51,7 +53,9 @@ export const EntryCard: FC<Props> = ({ entry }) => {
         <CardActions
           sx={{ display: "flex", justifyContent: "end", paddingRight: 2 }}
         >
-          <Typography variant="body2">Hace 30 minutos</Typography>
+          <Typography variant="body2">
+            {dateFunctions.getFormatDistanceToNow(entry.createdAt)}
+          </Typography>
         </CardActions>
       </CardActionArea>
     </Card>

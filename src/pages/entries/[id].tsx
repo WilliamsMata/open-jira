@@ -1,4 +1,3 @@
-import { ChangeEvent, useContext, useMemo, useState } from "react";
 import { NextPage, GetServerSideProps } from "next";
 import {
   capitalize,
@@ -22,8 +21,8 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import { dbEntries } from "@/database";
 import { Layout } from "@/components/layouts";
 import { Entry, EntryStatus } from "@/interfaces";
-import { EntriesContext } from "@/context/entries";
-import { useRouter } from "next/router";
+import { dateFunctions } from "@/utils";
+import { useEntryPage } from "@/hooks";
 
 const validStatus: EntryStatus[] = ["pending", "in-progress", "finished"];
 
@@ -32,46 +31,16 @@ interface Props {
 }
 
 const EntryPage: NextPage<Props> = ({ entry }) => {
-  const { updateEntry, deleteEntry } = useContext(EntriesContext);
-
-  const [inputValue, setInputValue] = useState<string>(entry.description);
-  const [status, setStatus] = useState<EntryStatus>(entry.status);
-  const [touched, setTouched] = useState<boolean>(false);
-
-  const router = useRouter();
-
-  const isNotValidForm = useMemo(
-    () => inputValue.length <= 0 && touched,
-    [inputValue, touched]
-  );
-
-  const onInputValueChanged = (event: ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value);
-  };
-
-  const onStatusChanged = (event: ChangeEvent<HTMLInputElement>) => {
-    setStatus(event.target.value as EntryStatus);
-  };
-
-  const onSave = () => {
-    if (inputValue.trim().length === 0) return;
-
-    const updatedEntry: Entry = {
-      ...entry,
-      status,
-      description: inputValue,
-    };
-
-    updateEntry(updatedEntry, true);
-
-    router.push("/");
-  };
-
-  const onDelete = () => {
-    deleteEntry(entry._id);
-
-    router.push("/");
-  };
+  const {
+    status,
+    inputValue,
+    isNotValidForm,
+    onDelete,
+    onInputValueChanged,
+    onSave,
+    onStatusChanged,
+    setTouched,
+  } = useEntryPage(entry);
 
   return (
     <Layout title={inputValue.substring(0, 20) + "..."}>
@@ -80,7 +49,9 @@ const EntryPage: NextPage<Props> = ({ entry }) => {
           <Card>
             <CardHeader
               title={`Entry:`}
-              subheader={`Created ${entry.createdAt} minutes ago`}
+              subheader={`Created ${dateFunctions.getFormatDistanceToNow(
+                entry.createdAt
+              )}`}
             />
             <CardContent>
               <TextField
